@@ -1,6 +1,13 @@
 from fastapi import FastAPI
+from http import HTTPStatus
+from fast_zero.schemas import Message
+from fast_zero.routers import auth,users
 
 app = FastAPI()
-@app.get("/")
-async def read_root():   
-    return {"Hello": "World"}
+app.include_router(auth.router)
+app.include_router(users.router)
+
+
+@app.get("/",status_code=HTTPStatus.OK,response_model=Message)
+def read_root():   
+    return {'Hello': "World"}
